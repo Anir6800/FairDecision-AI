@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+motor
+pymongo
+python-dotenv
+PyPDF2
+python-docx
+openai
+pydantic
