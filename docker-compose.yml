@@ -1,12 +1,21 @@
-version: '3.8'
-
 services:
-  mongodb:
-    image: mongo:latest
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - ./.env
     ports:
-      - "27017:27017"
+      - "8000:8000"
     volumes:
-      - mongodb_data:/data/db
+      - ./uploads:/app/uploads
 
-volumes:
-  mongodb_data:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
