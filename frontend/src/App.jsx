@@ -1,22 +1,25 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-function HomePage() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950 px-6">
-      <h1 className="text-center text-3xl font-semibold tracking-tight text-slate-100 sm:text-4xl">
-        FairDecision AI - Loading...
-      </h1>
-    </main>
-  )
-}
+import ErrorBoundary from './components/ErrorBoundary.jsx'
+import BiasAudit from './pages/BiasAudit.jsx'
+import Explanation from './pages/Explanation.jsx'
+import Processing from './pages/Processing.jsx'
+import Results from './pages/Results.jsx'
+import Upload from './pages/Upload.jsx'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Upload />} />
+          <Route path="/processing" element={<Processing />} />
+          <Route path="/results/:evaluationId" element={<Results />} />
+          <Route path="/results/:evaluationId/bias" element={<BiasAudit />} />
+          <Route path="/results/:evaluationId/explanation" element={<Explanation />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

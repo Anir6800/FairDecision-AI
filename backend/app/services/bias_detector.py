@@ -20,8 +20,8 @@ COLLEGE_INFLUENCE = {
 
 SEVERITY_WEIGHTS = {
     "NONE": 0.0,
-    "LOW": 1.0,
-    "MEDIUM": 2.0,
+    "LOW": 2.0,
+    "MEDIUM": 3.0,
     "HIGH": 4.0,
 }
 
