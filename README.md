@@ -1,328 +1,300 @@
-# FairDecision AI
-
-FairDecision AI is a research project on fairness-aware hiring evaluation.  
-It combines resume parsing, job-description parsing, candidate scoring, bias auditing, counterfactual simulation, and natural-language explanations into one end-to-end system.
-
-The core idea is simple:
-- do not score only for fit
-- also detect where non-merit factors may influence the decision
-- make the final recommendation auditable, explainable, and testable
-
-## Research Project Focus
-
-This project studies how AI-assisted hiring systems can be made more transparent and fair.
-
-The research problem is:
-- traditional resume-screening systems optimize only for matching
-- they often do not expose bias signals clearly
-- they rarely show how a decision changes if a sensitive or contextual variable changes
-
-FairDecision AI addresses that by adding:
-- structured resume and JD extraction
-- weighted candidate-job matching
-- bias factor detection
-- fairness scoring
-- counterfactual simulation
-- explanation generation for audit review
-
-## Research Questions
-
-This project is designed to explore questions such as:
-
-1. Can a candidate-job scoring system be separated into fit signals and fairness signals?
-2. Can location, college tier, and employment gaps be surfaced as auditable risk factors?
-3. Can counterfactual simulation show whether the system reacts differently when only one sensitive/contextual factor changes?
-4. Can a hiring recommendation be explained in plain English without hiding the underlying score logic?
-
-## What Counts As Research Here
-
-This is not only an app-building project. It is a research system because it includes:
-- a defined problem statement
-- explicit hypotheses about fairness and bias
-- measurable outputs
-- repeatable test cases
-- demo scenarios
-- evaluation criteria for whether the approach works
-
-In practice, the research work is:
-- define fairness-related variables
-- formalize scoring and bias rules
-- test the rules with controlled candidate profiles
-- compare original and counterfactual outcomes
-- observe whether the system exposes unfair influence clearly
-
-## Research Methodology
-
-The project follows this pipeline:
-
-1. Data ingestion
-   - upload resume and job description files
-   - extract text from PDF or DOCX
-
-2. Information extraction
-   - parse resume into structured candidate data
-   - parse job description into structured hiring requirements
-
-3. Candidate evaluation
-   - calculate skill score
-   - calculate experience score
-   - calculate education score
-   - calculate aggregate match score
-
-4. Bias audit
-   - detect location-related influence
-   - detect college-tier-related influence
-   - detect employment-gap-related influence
-   - calculate fairness score
-
-5. Counterfactual analysis
-   - change one variable at a time
-   - compare score delta and fairness delta
-
-6. Explanation generation
-   - generate a readable audit explanation
-   - cache results for repeat access
-
-## System Features
-
-### Backend
-- FastAPI API server
-- MongoDB storage for candidates, JDs, and evaluations
-- LM Studio integration for structured extraction and explanation generation
-- scoring engine
-- bias detection engine
-- counterfactual simulator
-- explanation caching
-
-### Frontend
-- upload interface for resume and JD
-- processing pipeline screen
-- results dashboard with gauges and sub-scores
-- bias audit panel
-- counterfactual simulator
-- explanation panel
-
-## Tech Stack
-
-- Frontend: React, Vite, Tailwind CSS, React Router
-- Backend: FastAPI, Pydantic
-- Database: MongoDB
-- Local AI runtime: LM Studio
-- File parsing: PyPDF2, python-docx
-- Demo PDF generation: reportlab
-
-## Project Structure
-
-```text
-FairDecision AI/
-├── backend/
-│   ├── app/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   ├── models/
-│   │   └── main.py
-│   ├── demo_data/
-│   ├── test_*.py
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   └── pages/
-│   └── package.json
-└── README.md
-```
-
-## How To Run The Project
-
-### 1. Start MongoDB
-
-If you are using Docker:
-
-```bash
-docker-compose up -d
-```
-
-### 2. Start LM Studio
-
-You must run LM Studio locally and load a model.
-
-Suggested usage:
-- start LM Studio server
-- expose OpenAI-compatible API
-- use the configured model for resume parsing, JD parsing, and explanation generation
-
-Default backend expectation:
-- URL: `http://localhost:1234/v1`
-
-### 3. Run Backend
-
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-### 4. Run Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## How To Use The System
-
-1. Open the frontend in the browser
-2. Upload a resume and a job description
-3. Wait for processing to complete
-4. Review:
-   - match score
-   - fairness score
-   - recommendation
-   - sub-scores
-5. Open the bias audit page
-6. Run counterfactual simulations
-7. Open the explanation page
-
-## Demo Data
-
-Demo PDFs can be generated from:
-
-```bash
-cd backend
-python demo_data/generate_demo_data.py
-```
-
-Generated files:
-- `resume_A.pdf`
-- `resume_B.pdf`
-- `resume_C.pdf`
-- `JD_senior_dev.pdf`
-
-## Testing
-
-### Unit and Integration Tests
-
-```bash
-cd backend
-python -m unittest backend/test_bias_detector.py backend/test_counterfactual.py backend/test_scorer.py backend/test_candidate_flow.py backend/test_resume_parser.py -v
-```
-
-### End-to-End Demo Test
-
-```bash
-cd backend
-python test_e2e.py
-```
-
-This test:
-- uploads `resume_B.pdf`
-- uploads `JD_senior_dev.pdf`
-- runs evaluation
-- validates bias flags
-- validates counterfactual effects
-
-## How To Do The Research Properly
-
-If this project is part of your academic or portfolio research, the right way to present it is:
-
-1. Define the problem clearly
-   - hiring AI often rewards fit without auditing fairness
-
-2. Define the variables
-   - skill match
-   - experience
-   - education
-   - location
-   - college tier
-   - employment gaps
-
-3. Explain your scoring rules
-   - weighted fit score
-   - bias factor influence
-   - fairness score
-
-4. Create controlled candidate profiles
-   - same skills, different city
-   - same skills, different college tier
-   - same skills, with and without employment gap
-
-5. Run counterfactual comparisons
-   - observe score delta
-   - observe fairness delta
-
-6. Record outcomes
-   - which variables changed the decision
-   - whether the change was merit-based or fairness-sensitive
-
-7. Discuss limitations
-   - rule-based bias signals are simplified
-   - LLM extraction quality depends on model behavior
-   - real hiring fairness is broader than these three factors
-
-## How To Succeed With This Project
-
-To make this project strong as a research submission, portfolio project, or thesis prototype:
-
-### Be clear about contribution
-- this project is not a generic ATS
-- its value is fairness auditing plus explainability plus counterfactual simulation
-
-### Show repeatable evidence
-- use demo PDFs
-- run test suites
-- show before/after counterfactual outputs
-- keep results reproducible
-
-### Be honest about limitations
-- this is a prototype fairness evaluation framework
-- not a legal compliance engine
-- not a production hiring policy replacement
-
-### Present both engineering and research value
-- engineering: full-stack system, APIs, frontend, DB, local AI integration
-- research: fairness metrics, interpretable scoring, auditable outputs
-
-## Success Criteria
-
-This project is successful if it can consistently do the following:
-
-- parse resumes and JDs into structured data
-- evaluate candidate-job fit with transparent sub-scores
-- detect at least some non-merit bias indicators
-- expose those indicators clearly in the UI
-- show meaningful counterfactual changes
-- produce an explanation that is readable and grounded in the evaluation
-- pass repeatable tests and demo scenarios
-
-## Limitations
+# FairDecision AI  
+## A Fairness-Aware Explainable Hiring Intelligence System for Auditable Candidate Evaluation
+
+**FairDecision AI** is an end-to-end research-driven hiring intelligence platform designed to evaluate candidates not only on job fit, but also on fairness sensitivity, bias exposure, and decision transparency.
+
+Traditional hiring systems often optimize for relevance and ranking, but they rarely explain **why** a candidate was selected, **which non-merit variables influenced the result**, or **how the recommendation changes when contextual factors are altered**.
+
+FairDecision AI addresses this gap by integrating:
+
+- structured resume intelligence  
+- job description understanding  
+- weighted candidate-job scoring  
+- fairness auditing  
+- bias signal exposure  
+- counterfactual simulation  
+- explainable recommendation generation  
+
+The system transforms candidate evaluation from a black-box scoring process into an **auditable decision framework**.
+
+---
+
+# Core Research Objective
+
+The central research objective of FairDecision AI is:
+
+> **To investigate whether AI-assisted hiring systems can separate merit-based candidate evaluation from fairness-sensitive contextual influence, while preserving interpretability and reproducibility.**
+
+Rather than treating hiring as pure matching, the project introduces a dual-layer evaluation architecture:
+
+## Layer 1: Merit Evaluation
+Measures candidate suitability through objective hiring signals.
+
+## Layer 2: Fairness Evaluation
+Surfaces contextual variables that may introduce unintended bias.
+
+This makes every recommendation testable rather than opaque.
+
+---
+
+# Research Problem Statement
+
+Many automated hiring systems suffer from three critical limitations:
+
+- They prioritize similarity matching without fairness auditing.
+- They hide intermediate decision signals.
+- They cannot explain score sensitivity when contextual variables change.
+
+As a result, users often cannot determine:
+
+- whether a lower score came from actual skill mismatch,
+- whether non-merit factors influenced ranking,
+- whether a decision remains stable under controlled variable changes.
+
+FairDecision AI directly addresses these limitations by creating a structured fairness-aware evaluation pipeline.
+
+---
+
+# Research Hypothesis
+
+The project is built around the following hypothesis:
+
+> **Candidate-job fit signals and fairness-sensitive signals can be modeled independently, audited explicitly, and recombined into an explainable hiring recommendation.**
+
+---
+
+# Primary Research Questions
+
+## 1. Fit vs Fairness Separation
+Can candidate-job compatibility be decomposed into:
+
+- merit-based fit signals  
+- fairness-sensitive contextual signals  
+
+without losing evaluation clarity?
+
+## 2. Auditable Bias Detection
+Can contextual factors such as:
+
+- geographic location  
+- college tier  
+- employment gaps  
+
+be surfaced as measurable audit indicators?
+
+## 3. Counterfactual Stability
+If only one contextual variable changes, does the recommendation remain stable?
+
+## 4. Explainability
+Can hiring recommendations be translated into plain-language explanations while remaining grounded in score logic?
+
+---
+
+# Why This Is a Research System (Not Just an App)
+
+FairDecision AI qualifies as a research system because it contains:
+
+- a formal problem definition  
+- explicit measurable variables  
+- testable scoring assumptions  
+- controlled experiments  
+- repeatable evaluation cases  
+- interpretable outputs  
+
+This moves the project beyond application engineering into experimental AI system design.
+
+---
+
+# Research Methodology
+
+## Phase 1 — Data Ingestion
+
+Input documents include:
+
+- candidate resumes (PDF / DOCX)
+- job descriptions (PDF / DOCX)
+
+The system extracts raw textual content for downstream analysis.
+
+## Phase 2 — Structured Information Extraction
+
+The extraction layer converts unstructured documents into machine-readable fields.
+
+### Resume Extraction
+Produces:
+
+- skills  
+- education  
+- work history  
+- certifications  
+- location  
+- timeline gaps  
+
+### Job Description Extraction
+Produces:
+
+- required skills  
+- preferred skills  
+- minimum experience  
+- education expectations  
+- role priority signals  
+
+## Phase 3 — Candidate Scoring Engine
+
+A weighted scoring engine computes merit-based compatibility.
+
+### Sub-scores include:
+
+- Skill Match Score  
+- Experience Score  
+- Education Score  
+- Aggregate Match Score  
+
+## Phase 4 — Bias Audit Engine
+
+The fairness audit layer identifies contextual variables that may influence hiring outcomes.
+
+### Current audit dimensions:
+
+- Location Sensitivity  
+- College Tier Sensitivity  
+- Employment Gap Sensitivity  
+
+## Phase 5 — Fairness Score Generation
+
+A fairness score estimates how much contextual influence appears in the evaluation.
+
+## Phase 6 — Counterfactual Simulation Engine
+
+The simulator changes exactly one contextual variable while keeping all others constant.
+
+Examples:
+
+- same candidate, different city  
+- same candidate, different college tier  
+- same candidate, no employment gap  
+
+Then it measures:
+
+- score delta  
+- fairness delta  
+- recommendation shift  
+
+## Phase 7 — Explanation Layer
+
+The explanation engine converts evaluation results into human-readable audit language.
+
+---
+
+# System Architecture
+
+## Backend Architecture
+
+- FastAPI  
+- MongoDB  
+- LM Studio  
+- scoring engine  
+- fairness engine  
+- counterfactual engine  
+- cache layer  
+
+## Frontend Architecture
+
+- React  
+- Vite  
+- Tailwind CSS  
+- React Router  
+
+### Frontend Modules
+
+- Upload Interface  
+- Processing Pipeline View  
+- Results Dashboard  
+- Bias Audit Panel  
+- Counterfactual Simulator  
+- Explanation Panel  
+
+---
+
+# Technical Stack Summary
+
+| Layer | Technology |
+|------|------------|
+| Frontend | React, Vite, Tailwind CSS |
+| Backend | FastAPI, Pydantic |
+| Database | MongoDB |
+| AI Runtime | LM Studio |
+| Parsing | PyPDF2, python-docx |
+| Demo Generation | reportlab |
+
+---
+
+# Evaluation Framework
+
+## Controlled Candidate Profiles
+
+Create profiles where only one variable changes:
+
+- same skills, different city  
+- same skills, different college  
+- same skills, employment gap variation  
+
+Then record:
+
+- score changes  
+- fairness changes  
+- recommendation stability  
+
+---
+
+# Success Metrics
+
+## Functional Success
+
+- parse documents correctly  
+- generate stable scores  
+- produce explanations  
+
+## Research Success
+
+- detect fairness-sensitive variables  
+- expose decision instability  
+- reproduce identical results under repeated runs  
+
+---
+
+# Limitations
 
 Current limitations include:
-- fairness is modeled with hand-designed rules, not learned causal inference
-- gap detection and location normalization are simplified
-- explanation quality depends on LM Studio model behavior
-- college-tier mapping is heuristic
-- bias scores are research signals, not formal proof of discrimination
 
-## Future Work
+- rule-based fairness assumptions  
+- heuristic college mapping  
+- simplified timeline interpretation  
+- non-causal bias inference  
 
-Possible next steps:
-- add more protected or contextual factors carefully and ethically
-- improve city normalization and geography handling
-- improve employment timeline modeling for overlapping jobs
-- add benchmark datasets
-- compare different weighting strategies
-- add formal experiment tracking
-- add browser automation tests for the full frontend flow
+Therefore:
 
-## Final Summary
+> This system is a research prototype for fairness exposure, not a legal compliance engine.
 
-FairDecision AI is a fairness-aware hiring research system.  
-It tries to answer an important question:
+---
 
-Can we build an AI hiring workflow that not only scores candidates, but also shows where bias may influence the outcome, explains the reasoning, and lets us test what would happen if a sensitive factor changed?
+# Future Work
 
-That is the research value of this project.
+- Add causal fairness methods  
+- Benchmark against public hiring datasets  
+- Introduce experiment tracking  
+- Compare multiple fairness weighting models  
+- Add protected-variable stress testing  
+- Evaluate explanation consistency across models  
+
+---
+
+# Final Summary
+
+> FairDecision AI demonstrates that hiring intelligence can move beyond ranking toward auditable reasoning.
+
+It asks a critical research question:
+
+> Can an AI hiring system show not only who matches a role, but also where fairness-sensitive variables may alter that decision?
+
+That is the scientific contribution of this work.
